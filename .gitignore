@@ -1,0 +1,4 @@
+# 01-blue-deployment.yaml
+# 02-main.service.yaml
+03-green-deployment.yaml
+04-preview-service.yaml
