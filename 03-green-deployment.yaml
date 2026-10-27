@@ -28,4 +28,4 @@ spec:
     spec:
       containers:
       - name: nginx-green
-        image: joindevops/blue-green:0.0.2
+        image: ramcharankola2/blue-green:0.0.2
