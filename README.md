@@ -186,3 +186,36 @@ kubectl delete -f 03-green-deployment.yaml
 # 3. Verify all resources are terminated:
 kubectl get pods,svc -l project=roboshop
 ```
+
+---
+
+## 📸 Proof of Work & Verification Screenshots
+
+The following live verification screenshots demonstrate the end-to-end Blue/Green execution, zero-downtime cutover, and traffic routing on AWS EKS:
+
+### 1. Concurrent Blue & Green Pods Running in Cluster (`k9s`)
+During the Blue/Green transition, both environments run simultaneously with complete isolation (4 Blue pods running `v0.0.1` and 4 Green pods running `v0.0.3`):
+
+![k9s Blue and Green Concurrent Pods](./images/04-k9s-blue-green-pods-running.png)
+
+---
+
+### 2. Live Production Traffic on Version `0.0.2`
+Before the cutover, the external AWS Load Balancer routes live user traffic to `version: 0.0.2`:
+
+![Live Traffic Version 0.0.2](./images/02-live-traffic-version-0.0.2.png)
+
+---
+
+### 3. Zero-Downtime Traffic Cutover & Patching (Bastion Terminal)
+Executing the cutover on Bastion via `kubectl patch service nginx -p '{"spec":{"selector":{"version":"blue"}}}'` (or switching to green) to instantly shift live production traffic with 0 seconds of downtime:
+
+![Deployment & Traffic Switch Terminal](./images/01-deployment-and-traffic-switch-terminal.png)
+
+---
+
+### 4. Verified Live Production Traffic on Version `0.0.3`
+Immediately after patching the service selector, the AWS Load Balancer routes live user requests to the newly validated `v0.0.3` release:
+
+![Live Traffic Version 0.0.3](./images/03-live-traffic-version-0.0.3-cutover.png)
+
