@@ -23,10 +23,10 @@ graph TD
         GREEN_DEP["Deployment: nginx-green<br/>(Replicas: 4, Image: v0.0.2)<br/>labels: version: green"]
     end
 
-    LIVE_USERS ==>|Port 80 (Production)| MAIN_SVC
+    LIVE_USERS -->|Port 80 (Production)| MAIN_SVC
     QA_USERS -->|Port 80 (Validation)| PREV_SVC
 
-    MAIN_SVC ==>|Live Route| BLUE_DEP
+    MAIN_SVC -->|Live Route| BLUE_DEP
     PREV_SVC -.->|Preview Route| GREEN_DEP
 
     classDef active fill:#2b82c9,stroke:#1b4f72,stroke-width:2px,color:#fff;
