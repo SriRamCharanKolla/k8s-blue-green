@@ -13,18 +13,18 @@ graph TD
         QA_USERS["QA / Automated Tests"]
     end
 
-    subgraph "Kubernetes Services (L4 Load Balancer & ClusterIP)"
-        MAIN_SVC["Service: nginx<br/>(type: LoadBalancer)<br/><b>selector: version: blue</b>"]
-        PREV_SVC["Service: nginx-preview<br/>(type: ClusterIP)<br/><b>selector: version: green</b>"]
+    subgraph "Kubernetes Services"
+        MAIN_SVC["Service: nginx<br/>Type: LoadBalancer<br/>Selector: version: blue"]
+        PREV_SVC["Service: nginx-preview<br/>Type: ClusterIP<br/>Selector: version: green"]
     end
 
-    subgraph "Deployments (Isolated Environments)"
-        BLUE_DEP["Deployment: nginx-blue<br/>(Replicas: 4, Image: v0.0.1)<br/>labels: version: blue"]
-        GREEN_DEP["Deployment: nginx-green<br/>(Replicas: 4, Image: v0.0.2)<br/>labels: version: green"]
+    subgraph "Deployments"
+        BLUE_DEP["Deployment: nginx-blue<br/>Replicas: 4, Image: v0.0.1<br/>Labels: version: blue"]
+        GREEN_DEP["Deployment: nginx-green<br/>Replicas: 4, Image: v0.0.2<br/>Labels: version: green"]
     end
 
-    LIVE_USERS -->|Port 80 (Production)| MAIN_SVC
-    QA_USERS -->|Port 80 (Validation)| PREV_SVC
+    LIVE_USERS -->|Port 80 - Production| MAIN_SVC
+    QA_USERS -->|Port 80 - Validation| PREV_SVC
 
     MAIN_SVC -->|Live Route| BLUE_DEP
     PREV_SVC -.->|Preview Route| GREEN_DEP
